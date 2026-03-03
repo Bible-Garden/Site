@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Garden — Listen to the Bible in Multiple Languages</title>
+    <meta name="description" content="Free, open-source app for reading and listening to the Bible with professional narration, configurable pauses, and verse-by-verse multilingual playback.">
+    <meta property="og:title" content="Bible Garden — Listen to the Bible in Multiple Languages">
+    <meta property="og:description" content="Free, open-source iOS app for multilingual Bible reading with audio.">
+    <meta property="og:image" content="img/logo.png">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="img/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        garden: {
+                            50: '#f0f7f2',
+                            100: '#d8ede0',
+                            200: '#b3dbc3',
+                            300: '#82c29f',
+                            400: '#52a379',
+                            500: '#35875c',
+                            600: '#266c49',
+                            700: '#1f563c',
+                            800: '#182e1e',
+                            900: '#121f17',
+                            950: '#0a1510',
+                        },
+                        gold: {
+                            300: '#f0cc6b',
+                            400: '#e8b84b',
+                            500: '#d4a843',
+                            600: '#b8923a',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Lora', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #0a1510;
+            overflow-x: hidden;
+        }
+
+        /* Subtle grain texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Firefly particles */
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #d4a843;
+            box-shadow: 0 0 8px 2px rgba(212, 168, 67, 0.4);
+            animation: float var(--duration, 8s) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { opacity: 0; transform: translate(0, 0); }
+            25% { opacity: 0.8; }
+            50% { opacity: 0.4; transform: translate(var(--tx, 30px), var(--ty, -40px)); }
+            75% { opacity: 0.7; }
+        }
+
+        /* Phone mockup */
+        .phone-frame {
+            width: 260px;
+            height: 530px;
+            border-radius: 36px;
+            border: 3px solid #2a4030;
+            overflow: hidden;
+            position: relative;
+            background: #0d1a12;
+            box-shadow:
+                0 0 40px rgba(212, 168, 67, 0.08),
+                0 25px 60px -15px rgba(0, 0, 0, 0.6);
+            flex-shrink: 0;
+        }
+
+        .phone-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .phone-frame-sm {
+            width: 220px;
+            height: 450px;
+            border-radius: 30px;
+        }
+
+        /* Hero glow */
+        .hero-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 168, 67, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Leaf decoration */
+        .leaf-decoration {
+            position: absolute;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Screenshots horizontal scroll */
+        .screenshots-scroll {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 2rem 0;
+            scrollbar-width: none;
+        }
+
+        .screenshots-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screenshots-scroll .phone-frame {
+            scroll-snap-align: center;
+        }
+
+        /* Nav solid on scroll */
+        .nav-solid {
+            background: rgba(10, 21, 16, 0.95) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(42, 64, 48, 0.5);
+        }
+
+        /* Feature card */
+        .feature-card {
+            background: linear-gradient(145deg, rgba(24, 46, 30, 0.6), rgba(18, 31, 23, 0.8));
+            border: 1px solid rgba(42, 64, 48, 0.4);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(212, 168, 67, 0.3);
+            box-shadow: 0 0 30px rgba(212, 168, 67, 0.05);
+        }
+
+        /* Gold gradient text */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #f0cc6b, #d4a843);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* CTA button */
+        .btn-gold {
+            background: linear-gradient(135deg, #d4a843, #b8923a);
+            color: #0a1510;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #e8b84b, #d4a843);
+            box-shadow: 0 0 25px rgba(212, 168, 67, 0.3);
+        }
+
+        .btn-outline {
+            border: 1.5px solid rgba(212, 168, 67, 0.5);
+            color: #d4a843;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: #d4a843;
+            background: rgba(212, 168, 67, 0.1);
+        }
+
+        /* Language switcher */
+        .lang-btn {
+            transition: color 0.2s ease;
+        }
+        .lang-btn.active {
+            color: #d4a843;
+        }
+        .lang-btn:not(.active):hover {
+            color: #a3b8aa;
+        }
+
+        /* Section divider */
+        .section-leaf {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4a843, transparent);
+            margin: 0 auto;
+        }
+
+        /* Hero phones arrangement */
+        @media (min-width: 768px) {
+            .hero-phones {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1.5rem;
+            }
+            .hero-phone-side {
+                transform: perspective(800px) rotateY(var(--rotate, 0deg));
+                opacity: 0.85;
+            }
+            .hero-phone-side:first-child { --rotate: 8deg; }
+            .hero-phone-side:last-child { --rotate: -8deg; }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .firefly { animation: none; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+
+<body class="bg-garden-950 text-gray-200 font-sans antialiased">
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <img src="img/logo.png" alt="Bible Garden" class="w-8 h-8 rounded-lg">
+                    <span class="font-serif font-semibold text-lg text-white">Bible Garden</span>
+                </a>
+
+                <!-- Desktop nav -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.features">Features</a>
+                    <a href="#screenshots" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.screenshots">Screenshots</a>
+                    <a href="#opensource" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.opensource">Open Source</a>
+                    <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.mission">Mission</a>
+                    <a href="#contact" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.contact">Contact</a>
+                </div>
+
+                <!-- Right side: lang + github -->
+                <div class="flex items-center gap-4">
+                    <!-- Language switcher -->
+                    <div class="flex items-center gap-1 text-sm text-gray-500">
+                        <button class="lang-btn active px-1.5 py-0.5 cursor-pointer" data-lang="en">EN</button>
+                        <span class="text-garden-700">|</span>
+                        <button class="lang-btn px-1.5 py-0.5 cursor-pointer" data-lang="ru">RU</button>
+                        <span class="text-garden-700">|</span>
+                        <button class="lang-btn px-1.5 py-0.5 cursor-pointer" data-lang="uk">UK</button>
+                    </div>
+
+                    <!-- GitHub link -->
+                    <a href="https://github.com/Bible-Garden" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors cursor-pointer" aria-label="GitHub">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white cursor-pointer" aria-label="Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col gap-3 pt-2">
+                    <a href="#features" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.features">Features</a>
+                    <a href="#screenshots" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.screenshots">Screenshots</a>
+                    <a href="#opensource" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.opensource">Open Source</a>
+                    <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.mission">Mission</a>
+                    <a href="#contact" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+        <!-- Background decorations -->
+        <div class="hero-glow" style="top: -100px; right: -100px;"></div>
+        <div class="hero-glow" style="bottom: -150px; left: -200px; width: 600px; height: 600px;"></div>
+
+        <!-- Fireflies -->
+        <div class="firefly" style="top: 20%; left: 15%; --duration: 7s; --tx: 40px; --ty: -30px; animation-delay: 0s;"></div>
+        <div class="firefly" style="top: 35%; right: 20%; --duration: 9s; --tx: -20px; --ty: -50px; animation-delay: 2s;"></div>
+        <div class="firefly" style="top: 60%; left: 30%; --duration: 11s; --tx: 30px; --ty: 20px; animation-delay: 4s;"></div>
+        <div class="firefly" style="top: 15%; right: 35%; --duration: 8s; --tx: -40px; --ty: -20px; animation-delay: 1s;"></div>
+        <div class="firefly" style="top: 70%; right: 15%; --duration: 10s; --tx: 25px; --ty: -35px; animation-delay: 3s;"></div>
+        <div class="firefly" style="top: 45%; left: 10%; --duration: 12s; --tx: -15px; --ty: 40px; animation-delay: 5s;"></div>
+
+        <!-- Leaf SVG decorations -->
+        <svg class="leaf-decoration" style="top: 10%; left: 5%; width: 120px;" viewBox="0 0 100 140" fill="none">
+            <path d="M50 0 C20 40, 0 80, 50 140 C100 80, 80 40, 50 0Z" fill="#4a9c6d"/>
+        </svg>
+        <svg class="leaf-decoration" style="bottom: 15%; right: 3%; width: 80px; transform: rotate(30deg);" viewBox="0 0 100 140" fill="none">
+            <path d="M50 0 C20 40, 0 80, 50 140 C100 80, 80 40, 50 0Z" fill="#4a9c6d"/>
+        </svg>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <!-- Left: Text -->
+                <div class="text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-garden-700 text-xs text-garden-400 mb-6">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        <span data-i18n="hero.badge">Open Source & Free Forever</span>
+                    </div>
+
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                        <span data-i18n="hero.title1">Listen to the Bible</span><br>
+                        <span class="text-gold-gradient" data-i18n="hero.title2">in Multiple Languages</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-gray-400 leading-relaxed mb-8 max-w-lg mx-auto md:mx-0" data-i18n="hero.description">
+                        Free app for reading and listening to the Bible with professional narration, configurable pauses, and unique verse-by-verse multilingual playback.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <!-- App Store button (placeholder) -->
+                        <a href="#" class="btn-gold px-6 py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2.5 cursor-pointer">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            <span data-i18n="hero.appstore">Download on App Store</span>
+                        </a>
+
+                        <!-- GitHub button -->
+                        <a href="https://github.com/Bible-Garden" target="_blank" rel="noopener" class="btn-outline px-6 py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2.5 cursor-pointer">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            <span data-i18n="hero.github">View on GitHub</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Phone mockups -->
+                <div class="flex justify-center">
+                    <div class="hero-phones">
+                        <div class="hero-phone-side hidden md:block">
+                            <div class="phone-frame phone-frame-sm">
+                                <img src="img/screens/multi-reading.jpg" alt="Multi Reading" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="phone-frame" style="width: 280px; height: 570px;">
+                                <img src="img/screens/home.jpg" alt="Bible Garden Home Screen" loading="eager">
+                            </div>
+                        </div>
+                        <div class="hero-phone-side hidden md:block">
+                            <div class="phone-frame phone-frame-sm">
+                                <img src="img/screens/classic-reading.jpg" alt="Classic Reading" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom fade -->
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-garden-950 to-transparent"></div>
+    </section>
+
+    <!-- ========== FEATURES ========== -->
+    <section id="features" class="py-24 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <div class="section-leaf mb-6"></div>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4" data-i18n="features.title">How It Works</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto" data-i18n="features.subtitle">A unique approach to Bible reading that helps you immerse in Scripture across languages and translations.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1: Multi Reading -->
+                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
+                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
+                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M12 2v20"/></svg>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.multi.title">Multi Reading</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.multi.desc">Listen to each verse in multiple languages sequentially. Build your own reading pipeline with any combination of translations and pauses.</p>
+                </div>
+
+                <!-- Feature 2: Audio Bible -->
+                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
+                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
+                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.audio.title">Audio Bible</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.audio.desc">Professional narrators for each translation. Configurable pauses between verses, paragraphs, or sections for contemplative reading.</p>
+                </div>
+
+                <!-- Feature 3: Multiple Translations -->
+                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
+                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
+                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.langs.title">3 Languages</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.langs.desc">Russian, English, and Ukrainian with multiple translations per language. New languages will be added over time.</p>
+                </div>
+
+                <!-- Feature 4: Progress -->
+                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
+                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
+                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.progress.title">Reading Progress</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.progress.desc">Visual progress for every book of the Bible. Automatic tracking by audio completion, scrolling, or manual marking.</p>
+                </div>
+
+                <!-- Feature 5: Customizable -->
+                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
+                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
+                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.custom.title">Fully Customizable</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.custom.desc">Adjust font size, playback speed from 0.6x to 2x, pause duration. Save and reuse your favorite reading configurations.</p>
+                </div>
+
+                <!-- Feature 6: Beautiful design -->
+                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
+                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
+                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.design.title">Night-Friendly Design</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.design.desc">Beautiful dark theme inspired by a magical garden. Comfortable for reading at any time of day, with highlighted words of Jesus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SCREENSHOTS ========== -->
+    <section id="screenshots" class="py-24 relative bg-garden-900/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <div class="section-leaf mb-6"></div>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4" data-i18n="screenshots.title">See It in Action</h2>
+                <p class="text-gray-400" data-i18n="screenshots.subtitle">Swipe through the app screens to explore the experience.</p>
+            </div>
+
+            <div class="screenshots-scroll justify-start lg:justify-center px-8 reveal">
+                <div class="phone-frame">
+                    <img src="img/screens/home.jpg" alt="Home Screen" loading="lazy">
+                </div>
+                <div class="phone-frame">
+                    <img src="img/screens/multi-setup.jpg" alt="Multi Reading Setup" loading="lazy">
+                </div>
+                <div class="phone-frame">
+                    <img src="img/screens/multi-reading.jpg" alt="Multi Reading" loading="lazy">
+                </div>
+                <div class="phone-frame">
+                    <img src="img/screens/classic-reading.jpg" alt="Classic Reading" loading="lazy">
+                </div>
+                <div class="phone-frame">
+                    <img src="img/screens/settings.jpg" alt="Settings" loading="lazy">
+                </div>
+                <div class="phone-frame">
+                    <img src="img/screens/progress.jpg" alt="Reading Progress" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== OPEN SOURCE ========== -->
+    <section id="opensource" class="py-24 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <!-- Left: text -->
+                <div class="reveal">
+                    <div class="section-leaf mb-6 mx-0"></div>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-6" data-i18n="opensource.title">Open Source<br>by Design</h2>
+                    <p class="text-gray-400 leading-relaxed mb-6" data-i18n="opensource.desc">Bible Garden is fully open source under the AGPL license. Every line of code is available on GitHub. We believe that tools for reading Scripture should be free, transparent, and community-driven.</p>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <p class="text-sm text-gray-300" data-i18n="opensource.point1">iOS app, API, and admin tools — all open source</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <p class="text-sm text-gray-300" data-i18n="opensource.point2">AGPL license — free to use, modify, and share</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-gold-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <p class="text-sm text-gray-300" data-i18n="opensource.point3">API available for any application, including commercial</p>
+                        </div>
+                    </div>
+
+                    <a href="https://github.com/Bible-Garden" target="_blank" rel="noopener" class="btn-outline px-6 py-3 rounded-xl text-sm inline-flex items-center gap-2.5 cursor-pointer">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        <span data-i18n="opensource.cta">Explore on GitHub</span>
+                    </a>
+                </div>
+
+                <!-- Right: code-style card -->
+                <div class="reveal">
+                    <div class="feature-card rounded-2xl p-6 sm:p-8 font-mono text-sm">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/60"></div>
+                            <span class="ml-2 text-xs text-gray-500">Bible-Garden</span>
+                        </div>
+                        <div class="space-y-1.5 text-gray-400">
+                            <p><span class="text-garden-400">bible-garden/</span></p>
+                            <p class="pl-4"><span class="text-gold-500">iOS-App/</span> <span class="text-gray-600">— SwiftUI</span></p>
+                            <p class="pl-4"><span class="text-gold-500">Bible-API/</span> <span class="text-gray-600">— FastAPI, read-only</span></p>
+                            <p class="pl-4"><span class="text-gold-500">Dashboard-API/</span> <span class="text-gray-600">— FastAPI, admin</span></p>
+                            <p class="pl-4"><span class="text-gold-500">Dashboard-Web/</span> <span class="text-gray-600">— Vue 3</span></p>
+                            <p class="pl-4"><span class="text-gold-500">Architect/</span> <span class="text-gray-600">— docs</span></p>
+                            <p class="mt-4 text-gray-500">
+                                <span class="text-garden-400">$</span> git clone bible-garden/iOS-App
+                            </p>
+                            <p class="text-gray-500">
+                                <span class="text-garden-400">$</span> open BibleGarden.xcodeproj
+                            </p>
+                            <p class="text-gray-600 mt-3">License: AGPL-3.0</p>
+                            <p class="text-gray-600" data-i18n="opensource.allrights">All rights belong to God.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MISSION ========== -->
+    <section id="mission" class="py-24 relative bg-garden-900/30">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <div class="section-leaf mb-6"></div>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-6" data-i18n="mission.title">Our Mission</h2>
+                <blockquote class="max-w-3xl mx-auto">
+                    <p class="font-serif text-xl sm:text-2xl text-gray-300 leading-relaxed italic" data-i18n="mission.quote">
+                        "Create a space where free text and audio versions of the Bible are created and made available to everyone, in multiple languages, in a convenient format."
+                    </p>
+                </blockquote>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <!-- Principle 1 -->
+                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p1.title">Free Forever</h3>
+                    <p class="text-sm text-gray-400" data-i18n="mission.p1.desc">"Freely you have received; freely give." We don't even accept donations.</p>
+                </div>
+
+                <!-- Principle 2 -->
+                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p2.title">Community Driven</h3>
+                    <p class="text-sm text-gray-400" data-i18n="mission.p2.desc">Anyone can contribute translations, vote for the best options, and improve quality together.</p>
+                </div>
+
+                <!-- Principle 3 -->
+                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p3.title">Legally Clear</h3>
+                    <p class="text-sm text-gray-400" data-i18n="mission.p3.desc">Only texts and audio with clear legal status. All copyrights belong to God.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section id="contact" class="py-24 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="reveal">
+                <div class="section-leaf mb-6"></div>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4" data-i18n="contact.title">Get in Touch</h2>
+                <p class="text-gray-400 mb-10 max-w-lg mx-auto" data-i18n="contact.desc">Have questions, want to contribute, or just say hello? Reach out through any of these channels.</p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <!-- Telegram -->
+                    <a href="#" class="feature-card rounded-xl px-6 py-4 inline-flex items-center gap-3 cursor-pointer hover:border-blue-400/30 transition-colors">
+                        <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        <span class="text-sm text-gray-300" data-i18n="contact.telegram">Telegram</span>
+                    </a>
+
+                    <!-- GitHub -->
+                    <a href="https://github.com/Bible-Garden" target="_blank" rel="noopener" class="feature-card rounded-xl px-6 py-4 inline-flex items-center gap-3 cursor-pointer hover:border-gray-400/30 transition-colors">
+                        <svg class="w-5 h-5 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        <span class="text-sm text-gray-300">GitHub</span>
+                    </a>
+
+                    <!-- Website -->
+                    <a href="https://bible.garden" class="feature-card rounded-xl px-6 py-4 inline-flex items-center gap-3 cursor-pointer hover:border-garden-400/30 transition-colors">
+                        <svg class="w-5 h-5 text-garden-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        <span class="text-sm text-gray-300">bible.garden</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="py-10 border-t border-garden-800/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2.5">
+                    <img src="img/logo.png" alt="Bible Garden" class="w-6 h-6 rounded-md">
+                    <span class="font-serif text-sm text-gray-400">Bible Garden</span>
+                </div>
+
+                <p class="text-xs text-gray-600" data-i18n="footer.copy">
+                    Open source project under AGPL license. All rights belong to God.
+                </p>
+
+                <div class="flex items-center gap-4">
+                    <a href="https://github.com/Bible-Garden" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 transition-colors cursor-pointer" aria-label="GitHub">
+                        <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+    // === Translations ===
+    const T = {
+        en: {
+            'nav.features': 'Features',
+            'nav.screenshots': 'Screenshots',
+            'nav.opensource': 'Open Source',
+            'nav.mission': 'Mission',
+            'nav.contact': 'Contact',
+            'hero.badge': 'Open Source & Free Forever',
+            'hero.title1': 'Listen to the Bible',
+            'hero.title2': 'in Multiple Languages',
+            'hero.description': 'Free app for reading and listening to the Bible with professional narration, configurable pauses, and unique verse-by-verse multilingual playback.',
+            'hero.appstore': 'Download on App Store',
+            'hero.github': 'View on GitHub',
+            'features.title': 'How It Works',
+            'features.subtitle': 'A unique approach to Bible reading that helps you immerse in Scripture across languages and translations.',
+            'features.multi.title': 'Multi Reading',
+            'features.multi.desc': 'Listen to each verse in multiple languages sequentially. Build your own reading pipeline with any combination of translations and pauses.',
+            'features.audio.title': 'Audio Bible',
+            'features.audio.desc': 'Professional narrators for each translation. Configurable pauses between verses, paragraphs, or sections for contemplative reading.',
+            'features.langs.title': '3 Languages',
+            'features.langs.desc': 'Russian, English, and Ukrainian with multiple translations per language. New languages will be added over time.',
+            'features.progress.title': 'Reading Progress',
+            'features.progress.desc': 'Visual progress for every book of the Bible. Automatic tracking by audio completion, scrolling, or manual marking.',
+            'features.custom.title': 'Fully Customizable',
+            'features.custom.desc': 'Adjust font size, playback speed from 0.6x to 2x, pause duration. Save and reuse your favorite reading configurations.',
+            'features.design.title': 'Night-Friendly Design',
+            'features.design.desc': 'Beautiful dark theme inspired by a magical garden. Comfortable for reading at any time of day, with highlighted words of Jesus.',
+            'screenshots.title': 'See It in Action',
+            'screenshots.subtitle': 'Swipe through the app screens to explore the experience.',
+            'opensource.title': 'Open Source\nby Design',
+            'opensource.desc': 'Bible Garden is fully open source under the AGPL license. Every line of code is available on GitHub. We believe that tools for reading Scripture should be free, transparent, and community-driven.',
+            'opensource.point1': 'iOS app, API, and admin tools — all open source',
+            'opensource.point2': 'AGPL license — free to use, modify, and share',
+            'opensource.point3': 'API available for any application, including commercial',
+            'opensource.cta': 'Explore on GitHub',
+            'opensource.allrights': 'All rights belong to God.',
+            'mission.title': 'Our Mission',
+            'mission.quote': '"Create a space where free text and audio versions of the Bible are created and made available to everyone, in multiple languages, in a convenient format."',
+            'mission.p1.title': 'Free Forever',
+            'mission.p1.desc': '"Freely you have received; freely give." We don\'t even accept donations.',
+            'mission.p2.title': 'Community Driven',
+            'mission.p2.desc': 'Anyone can contribute translations, vote for the best options, and improve quality together.',
+            'mission.p3.title': 'Legally Clear',
+            'mission.p3.desc': 'Only texts and audio with clear legal status. All copyrights belong to God.',
+            'contact.title': 'Get in Touch',
+            'contact.desc': 'Have questions, want to contribute, or just say hello? Reach out through any of these channels.',
+            'contact.telegram': 'Telegram',
+            'footer.copy': 'Open source project under AGPL license. All rights belong to God.',
+        },
+        ru: {
+            'nav.features': 'Возможности',
+            'nav.screenshots': 'Скриншоты',
+            'nav.opensource': 'Open Source',
+            'nav.mission': 'Миссия',
+            'nav.contact': 'Контакты',
+            'hero.badge': 'Open Source & Бесплатно навсегда',
+            'hero.title1': 'Слушайте Библию',
+            'hero.title2': 'на нескольких языках',
+            'hero.description': 'Бесплатное приложение для чтения и прослушивания Библии с профессиональной озвучкой, настраиваемыми паузами и уникальным мультиязычным воспроизведением стих за стихом.',
+            'hero.appstore': 'Скачать в App Store',
+            'hero.github': 'Открыть на GitHub',
+            'features.title': 'Как это работает',
+            'features.subtitle': 'Уникальный подход к чтению Библии, который помогает погрузиться в Писание через разные языки и переводы.',
+            'features.multi.title': 'Мульти-чтение',
+            'features.multi.desc': 'Слушайте каждый стих на нескольких языках последовательно. Создайте свой пайплайн чтения с любой комбинацией переводов и пауз.',
+            'features.audio.title': 'Аудио Библия',
+            'features.audio.desc': 'Профессиональные дикторы для каждого перевода. Настраиваемые паузы между стихами, абзацами или разделами для вдумчивого чтения.',
+            'features.langs.title': '3 языка',
+            'features.langs.desc': 'Русский, английский и украинский с несколькими переводами на каждый язык. Со временем будут добавлены новые языки.',
+            'features.progress.title': 'Прогресс чтения',
+            'features.progress.desc': 'Визуальный прогресс для каждой книги Библии. Автоматическое отслеживание по прослушиванию, прокрутке или ручной отметке.',
+            'features.custom.title': 'Полная настройка',
+            'features.custom.desc': 'Размер шрифта, скорость от 0.6x до 2x, длительность пауз. Сохраняйте и используйте любимые конфигурации чтения.',
+            'features.design.title': 'Дизайн для чтения',
+            'features.design.desc': 'Красивая тёмная тема, вдохновлённая волшебным садом. Комфортна для чтения в любое время суток, с подсветкой слов Иисуса.',
+            'screenshots.title': 'Как это выглядит',
+            'screenshots.subtitle': 'Пролистайте экраны приложения, чтобы увидеть возможности.',
+            'opensource.title': 'Open Source\nпо убеждению',
+            'opensource.desc': 'Bible Garden полностью открыт под лицензией AGPL. Весь код доступен на GitHub. Мы верим, что инструменты для чтения Писания должны быть бесплатными, прозрачными и управляемыми сообществом.',
+            'opensource.point1': 'iOS-приложение, API и админ-панель — всё открыто',
+            'opensource.point2': 'Лицензия AGPL — свободно использовать, изменять и распространять',
+            'opensource.point3': 'API доступен для любых приложений, включая коммерческие',
+            'opensource.cta': 'Смотреть на GitHub',
+            'opensource.allrights': 'Все права принадлежат Богу.',
+            'mission.title': 'Наша миссия',
+            'mission.quote': '«Создать пространство, где бесплатно создаются и предоставляются всем желающим текстовые и аудио-версии Библии на разных языках, в удобном формате.»',
+            'mission.p1.title': 'Всё бесплатно',
+            'mission.p1.desc': '«Даром получили — даром давайте.» Мы не принимаем даже донаты.',
+            'mission.p2.title': 'Сообщество',
+            'mission.p2.desc': 'Любой может добавить перевод, голосовать за лучший вариант и совместно улучшать качество.',
+            'mission.p3.title': 'Юридическая чистота',
+            'mission.p3.desc': 'Только тексты и озвучки с ясным правовым статусом. Все авторские права принадлежат Богу.',
+            'contact.title': 'Связаться с нами',
+            'contact.desc': 'Есть вопросы, хотите помочь проекту или просто поздороваться? Напишите нам.',
+            'contact.telegram': 'Телеграм',
+            'footer.copy': 'Проект с открытым кодом под лицензией AGPL. Все права принадлежат Богу.',
+        },
+        uk: {
+            'nav.features': 'Можливості',
+            'nav.screenshots': 'Скриншоти',
+            'nav.opensource': 'Open Source',
+            'nav.mission': 'Місія',
+            'nav.contact': 'Контакти',
+            'hero.badge': 'Open Source & Безкоштовно назавжди',
+            'hero.title1': 'Слухайте Біблію',
+            'hero.title2': 'кількома мовами',
+            'hero.description': 'Безкоштовний додаток для читання та прослуховування Біблії з професійною озвучкою, налаштовуваними паузами та унікальним багатомовним відтворенням вірш за віршем.',
+            'hero.appstore': 'Завантажити в App Store',
+            'hero.github': 'Відкрити на GitHub',
+            'features.title': 'Як це працює',
+            'features.subtitle': 'Унікальний підхід до читання Біблії, що допомагає зануритися в Писання через різні мови та переклади.',
+            'features.multi.title': 'Мульти-читання',
+            'features.multi.desc': 'Слухайте кожен вірш кількома мовами послідовно. Створіть свій пайплайн читання з будь-якою комбінацією перекладів та пауз.',
+            'features.audio.title': 'Аудіо Біблія',
+            'features.audio.desc': 'Професійні диктори для кожного перекладу. Налаштовувані паузи між віршами, абзацами чи розділами для вдумливого читання.',
+            'features.langs.title': '3 мови',
+            'features.langs.desc': 'Російська, англійська та українська з кількома перекладами на кожну мову. З часом будуть додані нові мови.',
+            'features.progress.title': 'Прогрес читання',
+            'features.progress.desc': 'Візуальний прогрес для кожної книги Біблії. Автоматичне відстеження за прослуховуванням, прокруткою або ручним позначенням.',
+            'features.custom.title': 'Повне налаштування',
+            'features.custom.desc': 'Розмір шрифту, швидкість від 0.6x до 2x, тривалість пауз. Зберігайте та використовуйте улюблені конфігурації читання.',
+            'features.design.title': 'Дизайн для читання',
+            'features.design.desc': 'Красива темна тема, натхненна чарівним садом. Комфортна для читання у будь-який час доби, з підсвіткою слів Ісуса.',
+            'screenshots.title': 'Як це виглядає',
+            'screenshots.subtitle': 'Прогортайте екрани додатку, щоб побачити можливості.',
+            'opensource.title': 'Open Source\nза переконанням',
+            'opensource.desc': 'Bible Garden повністю відкритий під ліцензією AGPL. Весь код доступний на GitHub. Ми віримо, що інструменти для читання Писання мають бути безкоштовними, прозорими та керованими спільнотою.',
+            'opensource.point1': 'iOS-додаток, API та адмін-панель — все відкрито',
+            'opensource.point2': 'Ліцензія AGPL — вільно використовувати, змінювати та поширювати',
+            'opensource.point3': 'API доступний для будь-яких додатків, включаючи комерційні',
+            'opensource.cta': 'Дивитися на GitHub',
+            'opensource.allrights': 'Усі права належать Богу.',
+            'mission.title': 'Наша місія',
+            'mission.quote': '«Створити простір, де безкоштовно створюються та надаються усім бажаючим текстові та аудіо-версії Біблії різними мовами, у зручному форматі.»',
+            'mission.p1.title': 'Все безкоштовно',
+            'mission.p1.desc': '«Дарма отримали — дарма давайте.» Ми не приймаємо навіть донати.',
+            'mission.p2.title': 'Спільнота',
+            'mission.p2.desc': 'Будь-хто може додати переклад, голосувати за найкращий варіант та спільно покращувати якість.',
+            'mission.p3.title': 'Юридична чистота',
+            'mission.p3.desc': 'Тільки тексти та озвучки з ясним правовим статусом. Усі авторські права належать Богу.',
+            'contact.title': "Зв'язатися з нами",
+            'contact.desc': 'Маєте питання, хочете допомогти проекту або просто привітатися? Напишіть нам.',
+            'contact.telegram': 'Телеграм',
+            'footer.copy': 'Проект з відкритим кодом під ліцензією AGPL. Усі права належать Богу.',
+        }
+    };
+
+    // === i18n Engine ===
+    let currentLang = localStorage.getItem('bg-lang') || 'en';
+
+    function setLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('bg-lang', lang);
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const val = T[lang]?.[key];
+            if (val) {
+                if (val.includes('\n')) {
+                    el.innerHTML = val.replace(/\n/g, '<br>');
+                } else {
+                    el.textContent = val;
+                }
+            }
+        });
+
+        // Update active lang button
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+
+        // Update page title
+        const titles = {
+            en: 'Bible Garden — Listen to the Bible in Multiple Languages',
+            ru: 'Bible Garden — Слушайте Библию на нескольких языках',
+            uk: 'Bible Garden — Слухайте Біблію кількома мовами',
+        };
+        document.title = titles[lang] || titles.en;
+    }
+
+    // === Init language ===
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLang(btn.dataset.lang));
+    });
+    setLang(currentLang);
+
+    // === Navbar scroll ===
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('nav-solid', window.scrollY > 50);
+    }, { passive: true });
+
+    // === Mobile menu ===
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // === Scroll reveal ===
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // === Smooth scroll for nav links ===
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>
