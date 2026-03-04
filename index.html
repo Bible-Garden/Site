@@ -134,25 +134,6 @@
             transform: translateY(0);
         }
 
-        /* Screenshots horizontal scroll */
-        .screenshots-scroll {
-            display: flex;
-            gap: 1.5rem;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            padding: 2rem 0;
-            scrollbar-width: none;
-        }
-
-        .screenshots-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .screenshots-scroll .phone-frame {
-            scroll-snap-align: center;
-        }
-
         /* Nav solid on scroll */
         .nav-solid {
             background: rgba(10, 21, 16, 0.95) !important;
@@ -354,7 +335,6 @@
                 <!-- Desktop nav -->
                 <div class="hidden md:flex items-center gap-8">
                     <a href="#features" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.features">Features</a>
-                    <a href="#screenshots" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.screenshots">Screenshots</a>
                     <a href="#opensource" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.opensource">Open Source</a>
                     <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.mission">Mission</a>
                     <a href="#contact" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.contact">Contact</a>
@@ -387,7 +367,6 @@
             <div id="mobile-menu" class="hidden md:hidden pb-4">
                 <div class="flex flex-col gap-3 pt-2">
                     <a href="#features" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.features">Features</a>
-                    <a href="#screenshots" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.screenshots">Screenshots</a>
                     <a href="#opensource" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.opensource">Open Source</a>
                     <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.mission">Mission</a>
                     <a href="#contact" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.contact">Contact</a>
@@ -481,7 +460,7 @@
         <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-garden-950 to-transparent"></div>
     </section>
 
-    <!-- ========== FEATURES ========== -->
+    <!-- ========== FEATURES (2x2 grid) ========== -->
     <section id="features" class="py-24 relative">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
@@ -490,92 +469,139 @@
                 <p class="text-gray-400 max-w-2xl mx-auto" data-i18n="features.subtitle">A unique approach to Bible reading that helps you immerse in Scripture across languages and translations.</p>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Feature 1: Multi Reading -->
-                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
-                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
-                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M12 2v20"/></svg>
+            <div class="grid md:grid-cols-2 gap-6">
+
+                <!-- 1. Multi Reading — killer feature -->
+                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
+                    <div class="flex h-full gap-0">
+                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="inline-block text-[10px] uppercase tracking-widest text-gold-500 font-semibold mb-0.5" data-i18n="features.multi.badge">Killer Feature</span>
+                                    <h3 class="font-serif text-xl font-semibold text-white leading-tight" data-i18n="features.multi.title">Multi Reading</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.multi.desc">Listen to each verse in multiple languages sequentially. Build your own reading pipeline with any combination of translations and pauses.</p>
+                            <div class="space-y-2.5 mt-auto">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.multi.p1">Verse-by-verse in 2+ languages</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.multi.p2">Custom pipeline: translations + pauses</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.multi.p3">Read by verse, paragraph, or chapter</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
+                            <img src="img/screens/multi-reading.jpg" alt="Multi Reading" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
+                        </div>
                     </div>
-                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.multi.title">Multi Reading</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.multi.desc">Listen to each verse in multiple languages sequentially. Build your own reading pipeline with any combination of translations and pauses.</p>
                 </div>
 
-                <!-- Feature 2: Audio Bible -->
-                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
-                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
-                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                <!-- 2. Classic Reading -->
+                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
+                    <div class="flex h-full gap-0">
+                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                </div>
+                                <h3 class="font-serif text-xl font-semibold text-white" data-i18n="features.classic.title">Classic Reading</h3>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.classic.desc">Read and listen to any book in one language with professional narration. Configurable pauses between verses, paragraphs, or sections for contemplative reading.</p>
+                            <div class="space-y-2.5 mt-auto">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.classic.p1">Professional narrators per language</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.classic.p2">Pauses: timed, full stop, or none</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.classic.p3">Words of Jesus highlighted</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
+                            <img src="img/screens/classic-reading.jpg" alt="Classic Reading" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
+                        </div>
                     </div>
-                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.audio.title">Audio Bible</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.audio.desc">Professional narrators for each translation. Configurable pauses between verses, paragraphs, or sections for contemplative reading.</p>
                 </div>
 
-                <!-- Feature 3: Multiple Translations -->
-                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
-                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
-                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <!-- 3. Reading Progress -->
+                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
+                    <div class="flex h-full gap-0">
+                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                </div>
+                                <h3 class="font-serif text-xl font-semibold text-white" data-i18n="features.progress.title">Reading Progress</h3>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.progress.desc">Visual progress for every book of the Bible. The app automatically tracks what you've listened to, scrolled through, or marked manually.</p>
+                            <div class="space-y-2.5 mt-auto">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.progress.p1">Per-book chapter progress bars</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.progress.p2">Auto-tracking by audio & scrolling</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.progress.p3">Total Bible reading percentage</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
+                            <img src="img/screens/progress.jpg" alt="Reading Progress" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
+                        </div>
                     </div>
-                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.langs.title">3 Languages</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.langs.desc">Russian, English, and Ukrainian with multiple translations per language. New languages will be added over time.</p>
                 </div>
 
-                <!-- Feature 4: Progress -->
-                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
-                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
-                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <!-- 4. Customization & Settings -->
+                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
+                    <div class="flex h-full gap-0">
+                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </div>
+                                <h3 class="font-serif text-xl font-semibold text-white" data-i18n="features.settings.title">Fully Customizable</h3>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.settings.desc">Fine-tune everything to your preference. Choose translations, narrators, font size, playback speed, and pause behavior. Save your favorite configurations as templates.</p>
+                            <div class="space-y-2.5 mt-auto">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.settings.p1">Speed 0.6x — 2x, adjustable font</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.settings.p2">3 languages, multiple translations</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span class="text-xs text-gray-400" data-i18n="features.settings.p3">Dark theme, background playback</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
+                            <img src="img/screens/settings.jpg" alt="Settings" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
+                        </div>
                     </div>
-                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.progress.title">Reading Progress</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.progress.desc">Visual progress for every book of the Bible. Automatic tracking by audio completion, scrolling, or manual marking.</p>
                 </div>
 
-                <!-- Feature 5: Customizable -->
-                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
-                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
-                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </div>
-                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.custom.title">Fully Customizable</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.custom.desc">Adjust font size, playback speed from 0.6x to 2x, pause duration. Save and reuse your favorite reading configurations.</p>
-                </div>
-
-                <!-- Feature 6: Beautiful design -->
-                <div class="feature-card rounded-2xl p-6 reveal cursor-default">
-                    <div class="w-11 h-11 rounded-xl bg-gold-500/10 flex items-center justify-center mb-4">
-                        <svg class="w-5.5 h-5.5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                    </div>
-                    <h3 class="font-serif text-lg font-semibold text-white mb-2" data-i18n="features.design.title">Night-Friendly Design</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="features.design.desc">Beautiful dark theme inspired by a magical garden. Comfortable for reading at any time of day, with highlighted words of Jesus.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== SCREENSHOTS ========== -->
-    <section id="screenshots" class="py-24 relative bg-garden-900/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 reveal">
-                <div class="section-leaf mb-6"></div>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4" data-i18n="screenshots.title">See It in Action</h2>
-                <p class="text-gray-400" data-i18n="screenshots.subtitle">Swipe through the app screens to explore the experience.</p>
-            </div>
-
-            <div class="screenshots-scroll justify-start lg:justify-center px-8 reveal">
-                <div class="phone-frame">
-                    <img src="img/screens/home.jpg" alt="Home Screen" loading="lazy">
-                </div>
-                <div class="phone-frame">
-                    <img src="img/screens/multi-setup.jpg" alt="Multi Reading Setup" loading="lazy">
-                </div>
-                <div class="phone-frame">
-                    <img src="img/screens/multi-reading.jpg" alt="Multi Reading" loading="lazy">
-                </div>
-                <div class="phone-frame">
-                    <img src="img/screens/classic-reading.jpg" alt="Classic Reading" loading="lazy">
-                </div>
-                <div class="phone-frame">
-                    <img src="img/screens/settings.jpg" alt="Settings" loading="lazy">
-                </div>
-                <div class="phone-frame">
-                    <img src="img/screens/progress.jpg" alt="Reading Progress" loading="lazy">
-                </div>
             </div>
         </div>
     </section>
@@ -751,7 +777,6 @@
     const T = {
         en: {
             'nav.features': 'Features',
-            'nav.screenshots': 'Screenshots',
             'nav.opensource': 'Open Source',
             'nav.mission': 'Mission',
             'nav.contact': 'Contact',
@@ -763,20 +788,27 @@
             'hero.github': 'View on GitHub',
             'features.title': 'How It Works',
             'features.subtitle': 'A unique approach to Bible reading that helps you immerse in Scripture across languages and translations.',
+            'features.multi.badge': 'Killer Feature',
             'features.multi.title': 'Multi Reading',
             'features.multi.desc': 'Listen to each verse in multiple languages sequentially. Build your own reading pipeline with any combination of translations and pauses.',
-            'features.audio.title': 'Audio Bible',
-            'features.audio.desc': 'Professional narrators for each translation. Configurable pauses between verses, paragraphs, or sections for contemplative reading.',
-            'features.langs.title': '3 Languages',
-            'features.langs.desc': 'Russian, English, and Ukrainian with multiple translations per language. New languages will be added over time.',
+            'features.multi.p1': 'Verse-by-verse in 2+ languages',
+            'features.multi.p2': 'Custom pipeline: translations + pauses',
+            'features.multi.p3': 'Read by verse, paragraph, or chapter',
+            'features.classic.title': 'Classic Reading',
+            'features.classic.desc': 'Read and listen to any book in one language with professional narration. Configurable pauses between verses, paragraphs, or sections for contemplative reading.',
+            'features.classic.p1': 'Professional narrators per language',
+            'features.classic.p2': 'Pauses: timed, full stop, or none',
+            'features.classic.p3': 'Words of Jesus highlighted',
             'features.progress.title': 'Reading Progress',
-            'features.progress.desc': 'Visual progress for every book of the Bible. Automatic tracking by audio completion, scrolling, or manual marking.',
-            'features.custom.title': 'Fully Customizable',
-            'features.custom.desc': 'Adjust font size, playback speed from 0.6x to 2x, pause duration. Save and reuse your favorite reading configurations.',
-            'features.design.title': 'Night-Friendly Design',
-            'features.design.desc': 'Beautiful dark theme inspired by a magical garden. Comfortable for reading at any time of day, with highlighted words of Jesus.',
-            'screenshots.title': 'See It in Action',
-            'screenshots.subtitle': 'Swipe through the app screens to explore the experience.',
+            'features.progress.desc': 'Visual progress for every book of the Bible. The app automatically tracks what you\'ve listened to, scrolled through, or marked manually.',
+            'features.progress.p1': 'Per-book chapter progress bars',
+            'features.progress.p2': 'Auto-tracking by audio & scrolling',
+            'features.progress.p3': 'Total Bible reading percentage',
+            'features.settings.title': 'Fully Customizable',
+            'features.settings.desc': 'Fine-tune everything to your preference. Choose translations, narrators, font size, playback speed, and pause behavior. Save your favorite configurations as templates.',
+            'features.settings.p1': 'Speed 0.6x — 2x, adjustable font',
+            'features.settings.p2': '3 languages, multiple translations',
+            'features.settings.p3': 'Dark theme, background playback',
             'opensource.title': 'Open Source\nby Design',
             'opensource.desc': 'Bible Garden is fully open source under the AGPL license. Every line of code is available on GitHub. We believe that tools for reading Scripture should be free, transparent, and community-driven.',
             'opensource.point1': 'iOS app, API, and admin tools — all open source',
@@ -799,7 +831,6 @@
         },
         ru: {
             'nav.features': 'Возможности',
-            'nav.screenshots': 'Скриншоты',
             'nav.opensource': 'Open Source',
             'nav.mission': 'Миссия',
             'nav.contact': 'Контакты',
@@ -811,20 +842,27 @@
             'hero.github': 'Открыть на GitHub',
             'features.title': 'Как это работает',
             'features.subtitle': 'Уникальный подход к чтению Библии, который помогает погрузиться в Писание через разные языки и переводы.',
+            'features.multi.badge': 'Главная фича',
             'features.multi.title': 'Мульти-чтение',
             'features.multi.desc': 'Слушайте каждый стих на нескольких языках последовательно. Создайте свой пайплайн чтения с любой комбинацией переводов и пауз.',
-            'features.audio.title': 'Аудио Библия',
-            'features.audio.desc': 'Профессиональные дикторы для каждого перевода. Настраиваемые паузы между стихами, абзацами или разделами для вдумчивого чтения.',
-            'features.langs.title': '3 языка',
-            'features.langs.desc': 'Русский, английский и украинский с несколькими переводами на каждый язык. Со временем будут добавлены новые языки.',
+            'features.multi.p1': 'Стих за стихом на 2+ языках',
+            'features.multi.p2': 'Свой пайплайн: переводы + паузы',
+            'features.multi.p3': 'По стиху, абзацу или главе',
+            'features.classic.title': 'Классическое чтение',
+            'features.classic.desc': 'Читайте и слушайте любую книгу на одном языке с профессиональной озвучкой. Настраиваемые паузы между стихами, абзацами или разделами для вдумчивого чтения.',
+            'features.classic.p1': 'Профессиональные дикторы',
+            'features.classic.p2': 'Паузы: по времени, полная остановка',
+            'features.classic.p3': 'Подсветка слов Иисуса',
             'features.progress.title': 'Прогресс чтения',
-            'features.progress.desc': 'Визуальный прогресс для каждой книги Библии. Автоматическое отслеживание по прослушиванию, прокрутке или ручной отметке.',
-            'features.custom.title': 'Полная настройка',
-            'features.custom.desc': 'Размер шрифта, скорость от 0.6x до 2x, длительность пауз. Сохраняйте и используйте любимые конфигурации чтения.',
-            'features.design.title': 'Дизайн для чтения',
-            'features.design.desc': 'Красивая тёмная тема, вдохновлённая волшебным садом. Комфортна для чтения в любое время суток, с подсветкой слов Иисуса.',
-            'screenshots.title': 'Как это выглядит',
-            'screenshots.subtitle': 'Пролистайте экраны приложения, чтобы увидеть возможности.',
+            'features.progress.desc': 'Визуальный прогресс для каждой книги Библии. Приложение автоматически отслеживает прослушанное, прокрученное или отмеченное вручную.',
+            'features.progress.p1': 'Прогресс-бар по главам каждой книги',
+            'features.progress.p2': 'Авто-трекинг по аудио и скроллу',
+            'features.progress.p3': 'Общий процент прочтения Библии',
+            'features.settings.title': 'Полная настройка',
+            'features.settings.desc': 'Настройте всё под себя: переводы, дикторов, размер шрифта, скорость воспроизведения, поведение пауз. Сохраняйте любимые конфигурации как шаблоны.',
+            'features.settings.p1': 'Скорость 0.6x — 2x, настройка шрифта',
+            'features.settings.p2': '3 языка, несколько переводов',
+            'features.settings.p3': 'Тёмная тема, фоновое воспроизведение',
             'opensource.title': 'Open Source\nпо убеждению',
             'opensource.desc': 'Bible Garden полностью открыт под лицензией AGPL. Весь код доступен на GitHub. Мы верим, что инструменты для чтения Писания должны быть бесплатными, прозрачными и управляемыми сообществом.',
             'opensource.point1': 'iOS-приложение, API и админ-панель — всё открыто',
@@ -847,7 +885,6 @@
         },
         uk: {
             'nav.features': 'Можливості',
-            'nav.screenshots': 'Скриншоти',
             'nav.opensource': 'Open Source',
             'nav.mission': 'Місія',
             'nav.contact': 'Контакти',
@@ -859,20 +896,27 @@
             'hero.github': 'Відкрити на GitHub',
             'features.title': 'Як це працює',
             'features.subtitle': 'Унікальний підхід до читання Біблії, що допомагає зануритися в Писання через різні мови та переклади.',
+            'features.multi.badge': 'Головна фіча',
             'features.multi.title': 'Мульти-читання',
             'features.multi.desc': 'Слухайте кожен вірш кількома мовами послідовно. Створіть свій пайплайн читання з будь-якою комбінацією перекладів та пауз.',
-            'features.audio.title': 'Аудіо Біблія',
-            'features.audio.desc': 'Професійні диктори для кожного перекладу. Налаштовувані паузи між віршами, абзацами чи розділами для вдумливого читання.',
-            'features.langs.title': '3 мови',
-            'features.langs.desc': 'Російська, англійська та українська з кількома перекладами на кожну мову. З часом будуть додані нові мови.',
+            'features.multi.p1': 'Вірш за віршем на 2+ мовах',
+            'features.multi.p2': 'Свій пайплайн: переклади + паузи',
+            'features.multi.p3': 'За віршем, абзацом або розділом',
+            'features.classic.title': 'Класичне читання',
+            'features.classic.desc': 'Читайте та слухайте будь-яку книгу однією мовою з професійною озвучкою. Налаштовувані паузи між віршами, абзацами чи розділами для вдумливого читання.',
+            'features.classic.p1': 'Професійні диктори',
+            'features.classic.p2': 'Паузи: за часом, повна зупинка',
+            'features.classic.p3': 'Підсвітка слів Ісуса',
             'features.progress.title': 'Прогрес читання',
-            'features.progress.desc': 'Візуальний прогрес для кожної книги Біблії. Автоматичне відстеження за прослуховуванням, прокруткою або ручним позначенням.',
-            'features.custom.title': 'Повне налаштування',
-            'features.custom.desc': 'Розмір шрифту, швидкість від 0.6x до 2x, тривалість пауз. Зберігайте та використовуйте улюблені конфігурації читання.',
-            'features.design.title': 'Дизайн для читання',
-            'features.design.desc': 'Красива темна тема, натхненна чарівним садом. Комфортна для читання у будь-який час доби, з підсвіткою слів Ісуса.',
-            'screenshots.title': 'Як це виглядає',
-            'screenshots.subtitle': 'Прогортайте екрани додатку, щоб побачити можливості.',
+            'features.progress.desc': 'Візуальний прогрес для кожної книги Біблії. Додаток автоматично відстежує прослухане, прокручене або позначене вручну.',
+            'features.progress.p1': 'Прогрес-бар по розділах кожної книги',
+            'features.progress.p2': 'Авто-трекінг за аудіо та скролом',
+            'features.progress.p3': 'Загальний відсоток прочитання Біблії',
+            'features.settings.title': 'Повне налаштування',
+            'features.settings.desc': 'Налаштуйте все під себе: переклади, дикторів, розмір шрифту, швидкість відтворення, поведінку пауз. Зберігайте улюблені конфігурації як шаблони.',
+            'features.settings.p1': 'Швидкість 0.6x — 2x, налаштування шрифту',
+            'features.settings.p2': '3 мови, кілька перекладів',
+            'features.settings.p3': 'Темна тема, фонове відтворення',
             'opensource.title': 'Open Source\nза переконанням',
             'opensource.desc': 'Bible Garden повністю відкритий під ліцензією AGPL. Весь код доступний на GitHub. Ми віримо, що інструменти для читання Писання мають бути безкоштовними, прозорими та керованими спільнотою.',
             'opensource.point1': 'iOS-додаток, API та адмін-панель — все відкрито',
