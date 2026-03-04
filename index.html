@@ -334,9 +334,9 @@
 
                 <!-- Desktop nav -->
                 <div class="hidden md:flex items-center gap-8">
+                    <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.mission">Mission</a>
                     <a href="#features" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.features">Features</a>
                     <a href="#opensource" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.opensource">Open Source</a>
-                    <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.mission">Mission</a>
                     <a href="#contact" class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer" data-i18n="nav.contact">Contact</a>
                 </div>
 
@@ -366,9 +366,9 @@
             <!-- Mobile menu -->
             <div id="mobile-menu" class="hidden md:hidden pb-4">
                 <div class="flex flex-col gap-3 pt-2">
+                    <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.mission">Mission</a>
                     <a href="#features" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.features">Features</a>
                     <a href="#opensource" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.opensource">Open Source</a>
-                    <a href="#mission" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.mission">Mission</a>
                     <a href="#contact" class="text-sm text-gray-400 hover:text-white transition-colors" data-i18n="nav.contact">Contact</a>
                 </div>
             </div>
@@ -458,6 +458,50 @@
 
         <!-- Bottom fade -->
         <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-garden-950 to-transparent"></div>
+    </section>
+
+    <!-- ========== MISSION ========== -->
+    <section id="mission" class="py-24 relative bg-garden-900/30">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <div class="section-leaf mb-6"></div>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-6" data-i18n="mission.title">Our Mission</h2>
+                <blockquote class="max-w-3xl mx-auto">
+                    <p class="font-serif text-xl sm:text-2xl text-gray-300 leading-relaxed italic" data-i18n="mission.quote">
+                        "Create a space where free text and audio versions of the Bible are created and made available to everyone, in multiple languages, in a convenient format."
+                    </p>
+                </blockquote>
+            </div>
+
+            <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <!-- Principle 1 -->
+                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p1.title">Free Forever</h3>
+                    <p class="text-sm text-gray-400" data-i18n="mission.p1.desc">"Freely you have received; freely give." We don't even accept donations.</p>
+                </div>
+
+                <!-- Principle 2 -->
+                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p2.title">Community Driven</h3>
+                    <p class="text-sm text-gray-400" data-i18n="mission.p2.desc">Anyone can contribute translations, vote for the best options, and improve quality together.</p>
+                </div>
+
+                <!-- Principle 3 -->
+                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
+                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p3.title">Legally Clear</h3>
+                    <p class="text-sm text-gray-400" data-i18n="mission.p3.desc">Only texts and audio with clear legal status. All copyrights belong to God.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- ========== FEATURES (2x2 grid) ========== -->
@@ -669,50 +713,6 @@
                             <p class="text-gray-600" data-i18n="opensource.allrights">All rights belong to God.</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== MISSION ========== -->
-    <section id="mission" class="py-24 relative bg-garden-900/30">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <div class="section-leaf mb-6"></div>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-6" data-i18n="mission.title">Our Mission</h2>
-                <blockquote class="max-w-3xl mx-auto">
-                    <p class="font-serif text-xl sm:text-2xl text-gray-300 leading-relaxed italic" data-i18n="mission.quote">
-                        "Create a space where free text and audio versions of the Bible are created and made available to everyone, in multiple languages, in a convenient format."
-                    </p>
-                </blockquote>
-            </div>
-
-            <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <!-- Principle 1 -->
-                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
-                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </div>
-                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p1.title">Free Forever</h3>
-                    <p class="text-sm text-gray-400" data-i18n="mission.p1.desc">"Freely you have received; freely give." We don't even accept donations.</p>
-                </div>
-
-                <!-- Principle 2 -->
-                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
-                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
-                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p2.title">Community Driven</h3>
-                    <p class="text-sm text-gray-400" data-i18n="mission.p2.desc">Anyone can contribute translations, vote for the best options, and improve quality together.</p>
-                </div>
-
-                <!-- Principle 3 -->
-                <div class="feature-card rounded-2xl p-6 text-center reveal cursor-default">
-                    <div class="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-6 h-6 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    </div>
-                    <h3 class="font-serif text-base font-semibold text-white mb-2" data-i18n="mission.p3.title">Legally Clear</h3>
-                    <p class="text-sm text-gray-400" data-i18n="mission.p3.desc">Only texts and audio with clear legal status. All copyrights belong to God.</p>
                 </div>
             </div>
         </div>
