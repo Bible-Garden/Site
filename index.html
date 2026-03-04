@@ -233,20 +233,109 @@
             margin: 0 auto;
         }
 
-        /* Hero phones arrangement */
-        @media (min-width: 768px) {
-            .hero-phones {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1.5rem;
+        /* Coverflow carousel */
+        .coverflow {
+            position: relative;
+            width: 100%;
+            height: 520px;
+            perspective: 1200px;
+        }
+
+        .coverflow-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .coverflow-slide {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 230px;
+            height: 470px;
+            border-radius: 32px;
+            border: 3px solid #2a4030;
+            overflow: hidden;
+            background: #0d1a12;
+            transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                        opacity 0.6s ease,
+                        box-shadow 0.6s ease,
+                        filter 0.6s ease;
+            cursor: pointer;
+        }
+
+        .coverflow-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .coverflow-slide.cf-center {
+            z-index: 5;
+            opacity: 1;
+            filter: brightness(1);
+            box-shadow:
+                0 0 50px rgba(212, 168, 67, 0.12),
+                0 30px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+
+        .coverflow-slide.cf-left-1,
+        .coverflow-slide.cf-right-1 {
+            z-index: 4;
+            opacity: 0.85;
+            filter: brightness(0.8);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .coverflow-slide.cf-left-2,
+        .coverflow-slide.cf-right-2 {
+            z-index: 3;
+            opacity: 0.55;
+            filter: brightness(0.6);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        .coverflow-slide.cf-hidden {
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Carousel dots */
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(42, 64, 48, 0.8);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .carousel-dot.active {
+            background: #d4a843;
+            box-shadow: 0 0 8px rgba(212, 168, 67, 0.4);
+        }
+
+        .carousel-dot:hover:not(.active) {
+            background: rgba(82, 163, 121, 0.5);
+        }
+
+        @media (max-width: 767px) {
+            .coverflow { height: 440px; }
+            .coverflow-slide {
+                width: 190px;
+                height: 390px;
+                border-radius: 28px;
             }
-            .hero-phone-side {
-                transform: perspective(800px) rotateY(var(--rotate, 0deg));
-                opacity: 0.85;
-            }
-            .hero-phone-side:first-child { --rotate: 8deg; }
-            .hero-phone-side:last-child { --rotate: -8deg; }
         }
 
         /* Reduced motion */
@@ -337,10 +426,10 @@
             <path d="M50 0 C20 40, 0 80, 50 140 C100 80, 80 40, 50 0Z" fill="#4a9c6d"/>
         </svg>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-                <!-- Left: Text -->
-                <div class="text-center md:text-left">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-5 gap-8 lg:gap-12 items-center">
+                <!-- Left: Text (2/5) -->
+                <div class="text-center md:text-left md:col-span-2">
                     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-garden-700 text-xs text-garden-400 mb-6">
                         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                         <span data-i18n="hero.badge">Open Source & Free Forever</span>
@@ -370,24 +459,33 @@
                     </div>
                 </div>
 
-                <!-- Right: Phone mockups -->
-                <div class="flex justify-center">
-                    <div class="hero-phones">
-                        <div class="hero-phone-side hidden md:block">
-                            <div class="phone-frame phone-frame-sm">
+                <!-- Right: Coverflow phone carousel (3/5) -->
+                <div class="flex flex-col items-center w-full md:col-span-3">
+                    <div class="coverflow" id="coverflow">
+                        <div class="coverflow-track">
+                            <div class="coverflow-slide" data-index="0">
+                                <img src="img/screens/home.jpg" alt="Home Screen" loading="eager">
+                            </div>
+                            <div class="coverflow-slide" data-index="1">
                                 <img src="img/screens/multi-reading.jpg" alt="Multi Reading" loading="lazy">
                             </div>
-                        </div>
-                        <div class="relative">
-                            <div class="phone-frame" style="width: 280px; height: 570px;">
-                                <img src="img/screens/home.jpg" alt="Bible Garden Home Screen" loading="eager">
-                            </div>
-                        </div>
-                        <div class="hero-phone-side hidden md:block">
-                            <div class="phone-frame phone-frame-sm">
+                            <div class="coverflow-slide" data-index="2">
                                 <img src="img/screens/classic-reading.jpg" alt="Classic Reading" loading="lazy">
                             </div>
+                            <div class="coverflow-slide" data-index="3">
+                                <img src="img/screens/settings.jpg" alt="Settings" loading="lazy">
+                            </div>
+                            <div class="coverflow-slide" data-index="4">
+                                <img src="img/screens/progress.jpg" alt="Reading Progress" loading="lazy">
+                            </div>
                         </div>
+                    </div>
+                    <div class="carousel-dots" id="coverflow-dots">
+                        <button class="carousel-dot active" data-slide="0" aria-label="Screen 1"></button>
+                        <button class="carousel-dot" data-slide="1" aria-label="Screen 2"></button>
+                        <button class="carousel-dot" data-slide="2" aria-label="Screen 3"></button>
+                        <button class="carousel-dot" data-slide="3" aria-label="Screen 4"></button>
+                        <button class="carousel-dot" data-slide="4" aria-label="Screen 5"></button>
                     </div>
                 </div>
             </div>
@@ -890,6 +988,92 @@
             }
         });
     });
+
+    // === Coverflow carousel (circular) ===
+    (() => {
+        const slides = document.querySelectorAll('.coverflow-slide');
+        const dots = document.querySelectorAll('#coverflow-dots .carousel-dot');
+        const total = slides.length;
+        let current = 0;
+        let interval;
+
+        function getSpacing() {
+            return window.innerWidth < 768 ? 100 : 125;
+        }
+
+        function getScale() {
+            return window.innerWidth < 768
+                ? { center: 1.1, near: 0.88, far: 0.72 }
+                : { center: 1.15, near: 0.9, far: 0.75 };
+        }
+
+        // Shortest circular distance from index i to current
+        function circularOffset(i, center) {
+            let diff = i - center;
+            if (diff > total / 2) diff -= total;
+            if (diff < -total / 2) diff += total;
+            return diff;
+        }
+
+        function layout() {
+            const spacing = getSpacing();
+            const scale = getScale();
+
+            slides.forEach((slide, i) => {
+                const offset = circularOffset(i, current);
+                const absOff = Math.abs(offset);
+
+                slide.classList.remove('cf-center', 'cf-left-1', 'cf-right-1', 'cf-left-2', 'cf-right-2', 'cf-hidden');
+
+                if (absOff === 0) {
+                    slide.classList.add('cf-center');
+                    slide.style.transform = `translate(-50%, -50%) translateX(0) scale(${scale.center})`;
+                } else if (absOff === 1) {
+                    slide.classList.add(offset < 0 ? 'cf-left-1' : 'cf-right-1');
+                    slide.style.transform = `translate(-50%, -50%) translateX(${offset * spacing}px) scale(${scale.near})`;
+                } else if (absOff === 2) {
+                    slide.classList.add(offset < 0 ? 'cf-left-2' : 'cf-right-2');
+                    slide.style.transform = `translate(-50%, -50%) translateX(${offset * spacing}px) scale(${scale.far})`;
+                } else {
+                    slide.classList.add('cf-hidden');
+                    const dir = offset > 0 ? 1 : -1;
+                    slide.style.transform = `translate(-50%, -50%) translateX(${dir * 3 * spacing}px) scale(0.6)`;
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === current);
+            });
+        }
+
+        function goTo(index) {
+            current = ((index % total) + total) % total;
+            layout();
+        }
+
+        function next() { goTo(current + 1); }
+
+        function startAutoplay() { interval = setInterval(next, 4000); }
+        function resetAutoplay() { clearInterval(interval); startAutoplay(); }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goTo(parseInt(dot.dataset.slide));
+                resetAutoplay();
+            });
+        });
+
+        slides.forEach(slide => {
+            slide.addEventListener('click', () => {
+                const idx = parseInt(slide.dataset.index);
+                if (idx !== current) { goTo(idx); resetAutoplay(); }
+            });
+        });
+
+        window.addEventListener('resize', layout);
+        layout();
+        startAutoplay();
+    })();
     </script>
 
 </body>
