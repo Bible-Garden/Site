@@ -504,147 +504,113 @@
         </div>
     </section>
 
-    <!-- ========== FEATURES (2x2 grid) ========== -->
-    <section id="features" class="py-24 relative">
+    <!-- ========== FEATURES ========== -->
+    <section id="features" class="py-28 relative">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
+            <div class="text-center mb-20 reveal">
                 <div class="section-leaf mb-6"></div>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4" data-i18n="features.title">How It Works</h2>
                 <p class="text-gray-400 max-w-2xl mx-auto" data-i18n="features.subtitle">A unique approach to Bible reading that helps you immerse in Scripture across languages and translations.</p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-28">
 
                 <!-- 1. Multi Reading — killer feature -->
-                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
-                    <div class="flex h-full gap-0">
-                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                                </div>
-                                <div>
-                                    <span class="inline-block text-[10px] uppercase tracking-widest text-gold-500 font-semibold mb-0.5" data-i18n="features.multi.badge">Killer Feature</span>
-                                    <h3 class="font-serif text-xl font-semibold text-white leading-tight" data-i18n="features.multi.title">Multi Reading</h3>
-                                </div>
+                <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-16 reveal">
+                    <div class="flex-shrink-0 order-2 md:order-1 flex gap-4">
+                        <img src="img/screens/multi-setup.jpg" alt="Multi Setup" class="w-[150px] sm:w-[180px] rounded-3xl border-2 border-garden-700/50 shadow-2xl" loading="lazy">
+                        <img src="img/screens/multi-reading.jpg" alt="Multi Reading" class="w-[150px] sm:w-[180px] rounded-3xl border-2 border-garden-700/50 shadow-2xl" loading="lazy">
+                    </div>
+                    <div class="flex-1 order-1 md:order-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                             </div>
-                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.multi.desc">Listen to each verse in multiple languages sequentially. Build your own reading pipeline with any combination of translations and pauses.</p>
-                            <div class="space-y-2.5 mt-auto">
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.multi.p1">Verse-by-verse in 2+ languages</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.multi.p2">Custom pipeline: translations + pauses</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.multi.p3">Read by verse, paragraph, or chapter</span>
-                                </div>
+                            <div>
+                                <span class="inline-block text-[10px] uppercase tracking-widest text-gold-500 font-semibold mb-0.5" data-i18n="features.multi.badge">Killer Feature</span>
+                                <h3 class="font-serif text-2xl font-semibold text-white leading-tight" data-i18n="features.multi.title">Multi Reading</h3>
                             </div>
                         </div>
-                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
-                            <img src="img/screens/multi-reading.jpg" alt="Multi Reading" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
+                        <p class="text-gray-400 leading-relaxed mb-6" data-i18n="features.multi.desc">Listen to each verse in multiple languages sequentially. Build your own reading pipeline with any combination of translations and pauses.</p>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.multi.p1">Verse-by-verse in 2+ languages</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.multi.p2">Custom pipeline: translations + pauses</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.multi.p3">Read by verse, paragraph, or chapter</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Classic Reading -->
-                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
-                    <div class="flex h-full gap-0">
-                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                                </div>
-                                <h3 class="font-serif text-xl font-semibold text-white" data-i18n="features.classic.title">Classic Reading</h3>
+                <!-- 2. Classic Reading (image right) -->
+                <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-16 reveal">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
                             </div>
-                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.classic.desc">Read and listen to any book in one language with professional narration. Configurable pauses between verses, paragraphs, or sections for contemplative reading.</p>
-                            <div class="space-y-2.5 mt-auto">
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.classic.p1">Professional narrators per language</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.classic.p2">Pauses: timed, full stop, or none</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.classic.p3">Words of Jesus highlighted</span>
-                                </div>
+                            <h3 class="font-serif text-2xl font-semibold text-white" data-i18n="features.classic.title">Classic Reading</h3>
+                        </div>
+                        <p class="text-gray-400 leading-relaxed mb-6" data-i18n="features.classic.desc">Read and listen to any book in one language with professional narration. Configurable pauses between verses, paragraphs, or sections for contemplative reading.</p>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.classic.p1">Professional narrators per language</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.classic.p2">Pauses: timed, full stop, or none</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.classic.p3">Words of Jesus highlighted</span>
                             </div>
                         </div>
-                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
-                            <img src="img/screens/classic-reading.jpg" alt="Classic Reading" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
+                    </div>
+                    <div class="flex-shrink-0 flex gap-4">
+                        <img src="img/screens/classic-reading.jpg" alt="Classic Reading" class="w-[150px] sm:w-[180px] rounded-3xl border-2 border-garden-700/50 shadow-2xl" loading="lazy">
+                        <img src="img/screens/settings.jpg" alt="Settings" class="w-[150px] sm:w-[180px] rounded-3xl border-2 border-garden-700/50 shadow-2xl" loading="lazy">
+                    </div>
+                </div>
+
+                <!-- 3. Reading Progress (image left) -->
+                <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-16 reveal">
+                    <div class="flex-shrink-0 order-2 md:order-1 flex gap-4">
+                        <img src="img/screens/progress.jpg" alt="Reading Progress" class="w-[150px] sm:w-[180px] rounded-3xl border-2 border-garden-700/50 shadow-2xl" loading="lazy">
+                        <img src="img/screens/menu.jpg" alt="Menu" class="w-[150px] sm:w-[180px] rounded-3xl border-2 border-garden-700/50 shadow-2xl" loading="lazy">
+                    </div>
+                    <div class="flex-1 order-1 md:order-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            </div>
+                            <h3 class="font-serif text-2xl font-semibold text-white" data-i18n="features.progress.title">Reading Progress</h3>
+                        </div>
+                        <p class="text-gray-400 leading-relaxed mb-6" data-i18n="features.progress.desc">Visual progress for every book of the Bible. The app automatically tracks what you've listened to, scrolled through, or marked manually.</p>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.progress.p1">Per-book chapter progress bars</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.progress.p2">Auto-tracking by audio & scrolling</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span class="text-sm text-gray-400" data-i18n="features.progress.p3">Total Bible reading percentage</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. Reading Progress -->
-                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
-                    <div class="flex h-full gap-0">
-                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                                </div>
-                                <h3 class="font-serif text-xl font-semibold text-white" data-i18n="features.progress.title">Reading Progress</h3>
-                            </div>
-                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.progress.desc">Visual progress for every book of the Bible. The app automatically tracks what you've listened to, scrolled through, or marked manually.</p>
-                            <div class="space-y-2.5 mt-auto">
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.progress.p1">Per-book chapter progress bars</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.progress.p2">Auto-tracking by audio & scrolling</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.progress.p3">Total Bible reading percentage</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
-                            <img src="img/screens/progress.jpg" alt="Reading Progress" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. Customization & Settings -->
-                <div class="feature-card rounded-2xl overflow-hidden reveal cursor-default min-h-[480px]">
-                    <div class="flex h-full gap-0">
-                        <div class="flex-1 p-5 sm:p-6 flex flex-col">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gold-500/15 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-gold-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                                </div>
-                                <h3 class="font-serif text-xl font-semibold text-white" data-i18n="features.settings.title">Fully Customizable</h3>
-                            </div>
-                            <p class="text-sm text-gray-400 leading-relaxed mb-5" data-i18n="features.settings.desc">Fine-tune everything to your preference. Choose translations, narrators, font size, playback speed, and pause behavior. Save your favorite configurations as templates.</p>
-                            <div class="space-y-2.5 mt-auto">
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.settings.p1">Speed 0.6x — 2x, adjustable font</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.settings.p2">3 languages, multiple translations</span>
-                                </div>
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-gold-500 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                    <span class="text-xs text-gray-400" data-i18n="features.settings.p3">Dark theme, background playback</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0 w-[200px] sm:w-[240px] py-5 pr-4 sm:pr-5 -ml-2">
-                            <img src="img/screens/settings.jpg" alt="Settings" class="w-full h-full object-cover rounded-2xl border-2 border-garden-700/50 shadow-lg" loading="lazy">
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
