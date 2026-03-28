@@ -1,6 +1,6 @@
 # Bible Garden — Website
 
-Landing page for the [Bible Garden](https://github.com/Bible-Garden) app. Static HTML site with 3 language translations (EN, RU, UK).
+Landing page for the [Bible Garden](https://github.com/Bible-Garden) app. Static HTML site with 3 language translations (EN, RU, UA).
 
 Live: [bible.garden](https://bible.garden)
 
