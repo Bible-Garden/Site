@@ -47,7 +47,7 @@
                 <span class="text-garden-700">|</span>
                 <button class="lang-btn px-1.5 py-0.5 cursor-pointer" data-lang="ru">RU</button>
                 <span class="text-garden-700">|</span>
-                <button class="lang-btn px-1.5 py-0.5 cursor-pointer" data-lang="uk">UK</button>
+                <button class="lang-btn px-1.5 py-0.5 cursor-pointer" data-lang="ua">UA</button>
             </div>
         </div>
 
@@ -157,7 +157,7 @@
             's7.text': 'Если у вас есть вопросы по данной политике конфиденциальности, свяжитесь с нами через <a href="https://t.me/biblegarden" target="_blank" rel="noopener" class="text-garden-400 hover:text-garden-300 underline">Telegram</a> или <a href="https://github.com/Bible-Garden" target="_blank" rel="noopener" class="text-garden-400 hover:text-garden-300 underline">GitHub</a>.',
             'footer': 'Проект с открытым кодом под лицензией AGPL. Все права принадлежат Богу.',
         },
-        uk: {
+        ua: {
             'back': 'Назад до Bible Garden',
             'title': 'Політика конфіденційності',
             'updated': 'Останнє оновлення: 7 березня 2026',
@@ -187,6 +187,7 @@
     // Determine language: ?lang= param > localStorage > default 'en'
     const urlLang = new URLSearchParams(window.location.search).get('lang');
     let currentLang = urlLang || localStorage.getItem('bg-lang') || 'en';
+    if (currentLang === 'uk') currentLang = 'ua';
     if (!T[currentLang]) currentLang = 'en';
 
     function setLang(lang) {
@@ -207,7 +208,7 @@
         const titles = {
             en: 'Privacy Policy — Bible Garden',
             ru: 'Политика конфиденциальности — Bible Garden',
-            uk: 'Політика конфіденційності — Bible Garden',
+            ua: 'Політика конфіденційності — Bible Garden',
         };
         document.title = titles[lang] || titles.en;
     }
