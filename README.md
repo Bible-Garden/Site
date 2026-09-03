@@ -16,6 +16,10 @@ Domains:
 - Separate Lampada site in `lampada/` with EN/RU translations
 - Reserved Lampada routes at `/privacy` and `/support`
 
+The Lampada logo assets are optimized derivatives of
+`assets/icon.png` from `BibleGarden/Lampada-Mobile`. See
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for attribution and license.
+
 ## Stack
 
 - HTML + Tailwind CSS (CDN)
