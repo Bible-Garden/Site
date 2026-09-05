@@ -1,11 +1,15 @@
 (() => {
-    const supportedLanguages = new Set(['en', 'ru']);
-    const queryLanguage = new URLSearchParams(window.location.search).get('lang');
-    const storedLanguage = localStorage.getItem('lampada-site-language');
-    const browserLanguage = navigator.language.toLowerCase().startsWith('ru') ? 'ru' : 'en';
+    const supportedLanguages = new Set(['en', 'ru', 'uk']);
+    function normalizeLanguage(value) {
+        const language = value?.toLowerCase().split('-')[0];
+        return language === 'ua' ? 'uk' : language;
+    }
+    const queryLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get('lang'));
+    const storedLanguage = normalizeLanguage(localStorage.getItem('lampada-site-language'));
+    const browserLanguages = (navigator.languages || [navigator.language]).map(normalizeLanguage);
 
     function chooseLanguage() {
-        for (const candidate of [queryLanguage, storedLanguage, browserLanguage, 'en']) {
+        for (const candidate of [queryLanguage, storedLanguage, ...browserLanguages, 'en']) {
             if (supportedLanguages.has(candidate)) {
                 return candidate;
             }

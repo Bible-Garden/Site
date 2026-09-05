@@ -13,8 +13,10 @@ Domains:
 - Canvas firefly particle animation
 - Responsive design (Tailwind CSS)
 - i18n with localStorage persistence
-- Separate Lampada site in `lampada/` with EN/RU translations
-- Reserved Lampada routes at `/privacy` and `/support`
+- Separate Lampada site in `lampada/` with EN/RU/UK translations
+- Lampada privacy policy at `/privacy` and a reserved support page at `/support`
+- Language selection uses `?lang=en|ru|uk`, remembers the choice and detects
+  browser languages; `ua` links are accepted as an alias for Ukrainian (`uk`).
 
 The Lampada logo assets are optimized derivatives of
 `assets/icon.png` from `BibleGarden/Lampada-Mobile`. See
@@ -23,9 +25,12 @@ The Lampada logo assets are optimized derivatives of
 ## Stack
 
 - HTML + Tailwind CSS (CDN)
-- Google Fonts: Lora + Inter
+- Google Fonts: Lora + Inter on the Bible Garden site
 - Vanilla JavaScript
 - No build step required
+
+The Lampada site uses system fonts and makes no font or analytics requests to
+third parties.
 
 ## Run locally
 
